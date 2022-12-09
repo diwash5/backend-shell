@@ -23,10 +23,10 @@ SCRIPTINTERVAL = PROGRAMINTERVAl + 60
 
 # cleaning the data as recieved from bandwidthd
 # keeping the NA in awk so that i can replace things later on without messing up the column
-cat log1.cdf | grep -v  0.0.0.0 | awk -F "," '{print $1, "NA", "NA" ,$2,$3,$10}' > cleanlog
+cat log1.cdf | grep -v  0.0.0.0 | awk -F "," '{print $1, "NA", "NA" ,$2,$3,$10}' > /tmp/Dprogram/cleanlog
 
 # Making a Good & Combined Dhcp file
-( awk '{print $3,$4,$2}' dhcp.leases && tail +2 dhcp.cfg* | awk '{print $1,$2,"NA"}' ) > cleandhcp
+( awk '{print $3,$4,$2}' /tmp/dhcp.leases && tail +2 /tmp/hosts/dhcp.cfg* | awk '{print $1,$2,"NA"}' ) > /tmp/Dprogram/cleandhcp
 
 
 # Now that i have my data , i can delete the log files from the drive to save storage and have accurate data for the next time
@@ -37,8 +37,8 @@ cat log1.cdf | grep -v  0.0.0.0 | awk -F "," '{print $1, "NA", "NA" ,$2,$3,$10}'
 while read line
 do
 USERIP=$( echo "$line" | awk '{print $1}' )
-sed -i 's/'"$USERIP"' NA NA/'"$line"'/g' cleanlog
-done < cleandhcp
+sed -i 's/'"$USERIP"' NA NA/'"$line"'/g' /tmp/Dprogram/cleanlog
+done < /tmp/Dprogram/cleandhcp
 
 
 # Making a Json Now
@@ -46,7 +46,9 @@ while read line
 do
 echo "$line" | awk '{printf "{ \"ip\" : \""$1"\" , \"name\" : \""$2"\" , \"macaddress\" : \""$3"\" , \"date\" : \""$4"\" , \"sent\" : \""$5"\" , \"recieved\" : \""$6"\"  }"}'
 sleep 1s
-done < cleanlog
+done < /tmp/Dprogram/cleanlog
+
+
 
 
 
