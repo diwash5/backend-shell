@@ -2,15 +2,6 @@
 
 #Tested and most of it works. anything with uci doesn't work . Didnot test modifyprogramconfig though
 WEBSITEAPI="http://192.168.39.155:3600/input/"
-# this module configures the bandwidthd , only meant to be used for the first time
-modifyprogramconfig () {
-    # setting subset i.e your ip range, obtaining it from uci ; Mine is 192.168.39.1
-    MYSUBSET = $( uci get network.lan.ipaddr )
-    uci set bandwidthd.@bandwidthd[0].subnets="$MYSUBSET"
-    # setting the output file of bandwidthd
-    uci set bandwidthd.@bandwidthd[0].output_cdf=true
-}
-
 
 ## These are the symlink that needs to be created before doing anything
 ## The main reason for this is to reduce storage needs and prevent flash from wearing down 
@@ -72,4 +63,6 @@ RESPONSE=$( curl -s --insecure --location --request POST "$WEBSITEAPI" \
 sleep 1s
 done < /tmp/cleanlog
 logger "Data is sent to the server and local file is deleted"
+
+
 done
