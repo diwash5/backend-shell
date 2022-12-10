@@ -1,7 +1,7 @@
 #! /bin/sh
 
 #Tested and most of it works. anything with uci doesn't work . Didnot test modifyprogramconfig though
-WEBSITEAPI="http://192.168.39.155:3600/input/"
+WEBSITEAPI="https://backend-nodejs.diwash5.repl.co/input/"
 
 ## These are the symlink that needs to be created before doing anything
 ## The main reason for this is to reduce storage needs and prevent flash from wearing down 
