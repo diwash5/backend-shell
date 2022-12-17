@@ -1,33 +1,8 @@
 #! /bin/sh
 
-#Tested and most of it works. anything with uci doesn't work . Didnot test modifyprogramconfig though
+#Tested and most of it works. anything with uci doesn't work .
 WEBSITEAPI="https://backend-nodejs.diwash5.repl.co/input/"
 
-## These are the symlink that needs to be created before doing anything
-## The main reason for this is to reduce storage needs and prevent flash from wearing down
-## So placing them in RAM
-## Only checking for log.1.0 as it is created most frequently
-
-SYMLINKFILES="/log.1.0.cdf"
-if [ -e "$SYMLINKFILES" ]; then
-    if [ ! -L "$SYMLINKFILES" ]
-    then
-        logger "File existed but is not a symlink. File deleted and Creating Symlink"
-        rm /log.*
-        ln -s /tmp/log.1.0.cdf /log.1.0.cdf
-        ln -s /tmp/log.2.0.cdf /log.2.0.cdf
-        ln -s /tmp/log.3.0.cdf /log.3.0.cdf
-        ln -s /tmp/log.4.0.cdf /log.4.0.cdf
-    else
-        logger "Symlink is Already in Place"
-    fi
-else
-    logger "File did not exists and the symlinks are created"
-    ln -s /tmp/log.1.0.cdf /log.1.0.cdf
-    ln -s /tmp/log.2.0.cdf /log.2.0.cdf
-    ln -s /tmp/log.3.0.cdf /log.3.0.cdf
-    ln -s /tmp/log.4.0.cdf /log.4.0.cdf
-fi
 
 #### Making a loop that the main program resides in and
 while :
