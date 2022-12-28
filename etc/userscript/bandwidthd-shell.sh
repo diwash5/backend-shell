@@ -2,7 +2,16 @@
 
 #Tested and most of it works. anything with uci doesn't work .
 WEBSITEAPI="https://backend-nodejs.diwash5.repl.co/input/"
+WEBSITETOKEN="R4A"
 
+# Check if the symbolic link exists
+if [ ! -L "/log.1.0.cdf" ]; then
+    # Create the symbolic link , delete if there are existing file there
+    for i in 1 2 3 4
+    do
+        ln -sf /tmp/log.${i}.0.cdf /log.${i}.0.cdf
+    done
+fi
 
 #### Making a loop that the main program resides in and
 while :
@@ -31,7 +40,7 @@ do
     # Making a Json Now by reading each line of cleanlog file and sending the json to the url
     while read line
     do
-        SENDME=$(echo "$line" | awk '{printf "{ \"ip\" : \""$1"\" , \"deviceName\" : \""$2"\" , \"macaddress\" : \""$3"\" , \"date\" : \""$4"\" , \"upload\" : \""$5"\" , \"download\" : \""$6"\"  }"}')
+        SENDME=$(echo "$line" | awk '{print "{ \"ip\" : \""$1"\" , \"deviceName\" : \""$2"\" , \"macaddress\" : \""$3"\" , \"date\" : \""$4"\" , \"upload\" : \""$5"\" , \"download\" : \""$6"\" ,\"token\" : \"""'$WEBSITETOKEN'""\" \}"}')
         RESPONSE=$( curl -s --insecure --location --request POST "$WEBSITEAPI" \
             --header 'Content-Type: application/json' \
         --data-raw "$SENDME" )
